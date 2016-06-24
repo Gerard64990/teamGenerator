@@ -31,8 +31,9 @@ $teams = $teamMaker->makeTeams();
 <img src="img/soccer-field.jpg" alt="" />
   <div class="pitch">
     <div id="team1">
-      <h5>Attack: <?=$teams[0]->level()['attack'];?> | Defence: <?=$teams[0]->level()['defence'];?></br>
-      Stamina: <?=$teams[0]->level()['stamina'];?> | TeamSpirit: <?=$teams[0]->level()['teamSpirit'];?> | TOTAL : <?=array_reduce( $teams[0]->level(), function($attack, $defence) { return $attack + $defence; });?></h5>
+      <span id="teamStat">Attack: <?=$teams[0]->level()['attack'];?> | Defence: <?=$teams[0]->level()['defence'];?></br>
+      Stamina: <?=$teams[0]->level()['stamina'];?> | TeamSpirit: <?=$teams[0]->level()['teamSpirit'];?></br>
+      TOTAL : <?=array_reduce( $teams[0]->level(), function($attack, $defence) { return $attack + $defence; });?></span>
       <ul>
         <?php
           foreach ($teams[0]->players as $player)
@@ -43,8 +44,9 @@ $teams = $teamMaker->makeTeams();
       </ul>
     </div>
     <div id="team2">
-      <h5>Attack: <?=$teams[1]->level()['attack'];?> | Defence: <?=$teams[1]->level()['defence'];?></br>
-      Stamina: <?=$teams[1]->level()['stamina'];?> | TeamSpirit: <?=$teams[1]->level()['teamSpirit'];?> | TOTAL : <?=array_reduce( $teams[1]->level(), function($attack, $defence) { return $attack + $defence; });?></h5>
+      <span id="teamStat">Attack: <?=$teams[1]->level()['attack'];?> | Defence: <?=$teams[1]->level()['defence'];?></br>
+      Stamina: <?=$teams[1]->level()['stamina'];?> | TeamSpirit: <?=$teams[1]->level()['teamSpirit'];?></br>
+      TOTAL : <?=array_reduce( $teams[1]->level(), function($attack, $defence) { return $attack + $defence; });?></span>
       <ul>
         <?php
         foreach ($teams[1]->players as $player)
@@ -54,6 +56,5 @@ $teams = $teamMaker->makeTeams();
         ?>
       </ul>
     </div>
-    DIFF : <?=($teams[0]->level()['attack']+$teams[0]->level()['defence']+$teams[0]->level()['stamina']+$teams[0]->level()['teamSpirit']) - ($teams[1]->level()['attack']+$teams[1]->level()['defence']+$teams[1]->level()['stamina']+$teams[1]->level()['teamSpirit']);?>
   </div>
 </div>
