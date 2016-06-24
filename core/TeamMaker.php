@@ -17,6 +17,12 @@
       $this->debt = 0;
 
       $this->pairPlayers();
+
+      $this->bestTeam1 = new Team();
+      $this->bestTeam2 = new Team();
+      $this->bestDiff = 1000;
+
+      $this->numTry = 0;
     }
 
     /**
@@ -33,7 +39,9 @@
           'Empty',
           [
             'attack' => 0,
-            'defence' => 0
+            'defence' => 0,
+            'stamina' => 0,
+            'teamSpirit' => 0
           ]
         );
 
@@ -52,6 +60,7 @@
       $team1 = new Team();
       $team2 = new Team();
 
+      $this->numTry++;
       $playerLoop = $this->players;
 
       for( $i=0; $i<count($this->players)/2; $i++ )
@@ -65,8 +74,20 @@
 
         sort($playerLoop); // Temp: need to find out how to take the first element of an unsorted array
       }
-
-      return $this->compareTeams($team1, $team2) ? [$team1, $team2] : $this->makeTeams();
+      $currentDiff = $this->compareTeams($team1, $team2);
+      if ( $currentDiff < $this->bestDiff )
+      {
+        $this->bestDiff = $currentDiff;
+        $this->bestTeam1 = $team1;
+        $this->bestTeam2 = $team2;
+      }
+      if ( $this->numTry > 200 )
+      {
+        // echo "STOP!!!";
+        return [$this->bestTeam1, $this->bestTeam2];
+      }
+      else
+        return ( $currentDiff < 2 ) ? [$team1, $team2] : $this->makeTeams();
     }
 
     private function compareTeams($team1, $team2)
@@ -74,8 +95,9 @@
       $t1strength = array_reduce( $team1->level(), function($attack, $defence) { return $attack + $defence; } );
 
       $t2strength = array_reduce( $team2->level(), function($attack, $defence) { return $attack + $defence; } );
-
-      return $t1strength <= $t2strength + 15 && $t1strength >= $t2strength - 15;
+      // echo "t1strength: ".$t1strength;
+      // echo " t2strength: ".$t2strength."  DIFF ".($t1strength-$t2strength)."</br>";
+      return abs($t1strength - $t2strength);
     }
 
     /**

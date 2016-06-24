@@ -48,8 +48,10 @@
     public function level()
     {
       return [
-        'attack'  => $this->attack(),
-        'defence' => $this->defence()
+        'attack'  => $this->attack()*1.5,
+        'defence' => $this->defence()*1.0,
+        'stamina' => $this->stamina()*0.8,
+        'teamSpirit' => $this->teamSpirit()*1.
         ];
     }
 
@@ -76,6 +78,27 @@
     }
 
     /**
+    * @access public
+    * @since 0.1.0
+    * 
+    * @return Array The defence of all the players
+    */
+    public function stamina()
+    {
+      return array_reduce( $this->playersStamina(), function($prevStamina, $currStamina) { return $prevStamina + $currStamina; } );
+    }
+
+    /**
+    * @access public
+    * @since 0.1.0
+    * 
+    * @return Array The defence of all the players
+    */
+    public function teamSpirit()
+    {
+      return array_reduce( $this->playersTeamSpirit(), function($prevTeamSpirit, $currTeamSpirit) { return $prevTeamSpirit + $currTeamSpirit; } );
+    }
+    /**
     * @access private
     * @since 0.1.0
     * 
@@ -95,6 +118,28 @@
     private function playersDefence()
     {
       return array_map( function($player) { return $player->skills['defence']; }, $this->players );
+    }
+
+    /**
+    * @access private
+    * @since 0.1.0
+    * 
+    * @return Array The defence of all the players
+    */
+    private function playersStamina()
+    {
+      return array_map( function($player) { return $player->skills['stamina']; }, $this->players );
+    }
+
+    /**
+    * @access private
+    * @since 0.1.0
+    * 
+    * @return Array The defence of all the players
+    */
+    private function playersTeamSpirit()
+    {
+      return array_map( function($player) { return $player->skills['teamSpirit']; }, $this->players );
     }
   }
 ?>

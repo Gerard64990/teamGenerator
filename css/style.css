@@ -16,6 +16,10 @@ body {
    top: 10px;
 }
 
+h5 {
+  font-size: 1em;
+}
+
 .pitch {
   position: absolute; 
   top: 5px;
