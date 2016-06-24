@@ -53,7 +53,7 @@ $rep = $db->query('SELECT * FROM player ORDER BY id');
 while ($data = $rep->fetch())
 {
 ?>
-  <li class="ui-widget-content"><?php echo $data['firstName']."  ".$data['lastName']."  ".$data['att']."  ".$data['def']."  ".$data['sta']; ?></li>
+  <li class="ui-widget-content"><?php echo $data['firstName']."  ".$data['lastName']."  ".$data['att']."  ".$data['def']."  ".$data['sta']."  ".$data['teamSpirit']; ?></li>
 <?php
 }
 $rep->closeCursor();

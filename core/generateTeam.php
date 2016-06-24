@@ -16,7 +16,7 @@ foreach ($idPlayers as $id)
     $rep = $db->query('SELECT * FROM player WHERE id = '.($id+1));
     while ( $data = $rep->fetch() )
     {
-      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,[ 'attack' => $data['att'],'defence' => $data['def'] ] ));
+      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,[ 'attack' => ($data['att']/10),'defence' => ($data['def']/10) ] ));
     }
     $rep->closeCursor();
   }
