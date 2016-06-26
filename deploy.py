@@ -1,62 +1,33 @@
 import ftplib
-import base64
 import os
-import time 
+import base64
 
-def FtpRmTree(ftp, path):
-    """Recursively delete a directory tree on a remote server."""
-    wd = ftp.pwd()
-
-    try:
-        names = ftp.nlst(path)
-    except ftplib.all_errors as e:
-        # some FTP servers complain when you try and list non-existent paths
-        print('FtpRmTree: Could not remove {0}: {1}'.format(path, e))
-        return
-
-    for name in names:
-        if os.path.split(name)[1] in ('.', '..'): continue
-
-        print('FtpRmTree: Checking {0}'.format(name))
-
-        try:
-            ftp.cwd(name)  # if we can cwd to it, it's a folder
-            ftp.cwd(wd)  # don't try a nuke a folder we're in
-            FtpRmTree(ftp, name)
-        except ftplib.all_errors:
-            ftp.delete(dirName+"/"+name)
-
-    try:
-        ftp.rmd(path)
-    except ftplib.all_errors as e:
-        print('FtpRmTree: Could not remove {0}: {1}'.format(path, e))
-        
-def upload(ftp, file):
-  ext = os.path.splitext(file)[1]
-  if ext in (".txt", ".htm", ".html"):
-    ftp.storlines("STOR " + dirName+"/"+file, open(file))
-  else:
-    ftp.storbinary("STOR " + dirName+"/"+file, open(file, "rb"), 1024)
+server = "gerard64.ueuo.com"
+username = "gerard64.ueuo.com"
+password = base64.b64decode("RHJvZ2JhNjQ=".encode()).decode()
 
 
-urlLogin="gerard64.ueuo.com"
-dirName="teamGenerator"
+myFTP = ftplib.FTP(server, username, password)
+myPath = os.path.abspath(os.path.dirname(__file__))+'\\'
+# myDirName="teamGenerator"
+#replace root by 983251
 
-ftp = ftplib.FTP(urlLogin)
-ftp.login(urlLogin, base64.b64decode("RHJvZ2JhNjQ=".encode()).decode())
+def uploadThis(path):
+  files = os.listdir(path)
+  os.chdir(path)
+  for f in files:
+    if os.path.isfile(path + r'\{}'.format(f)) and "tmp" not in f:
+      print ("add file: " + path + f)
+      fh = open(f, 'rb')
+      myFTP.storbinary('STOR %s' % f, fh)
+      fh.close()
+    elif os.path.isdir(path + r'\{}'.format(f)) and "git" not in f and "tmp" not in f:
+      print ("add dir: " + path + f)
+      myFTP.mkd(f)
+      myFTP.cwd(f)
+      uploadThis(path + r'\{}'.format(f))
+  myFTP.cwd('..')
+  os.chdir('..')
 
-FtpRmTree(ftp,dirName)
-# ftp.delete(dirName+"/"+"tmp.php")
-
-ftp.mkd(dirName)
-ftp.mkd(dirName+"/toto")
-start_time = time.time()
-upload(ftp, "tmp.php")
-upload2(ftp, "tmp2.php")
-interval = time.time() - start_time
-print ('Total time in seconds:', interval)
-
-# with open('tmp.php', 'r') as f:  
-  # ftp.storlines('STOR %s' % 'remotefile.txt', f) 
-
-ftp.quit()
+# myFTP.mkd(dirName)
+uploadThis(myPath) # now call the recursive function  
