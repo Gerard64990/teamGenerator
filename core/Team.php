@@ -48,10 +48,10 @@
     public function level()
     {
       return [
-        'attack'  => $this->attack()*1.5,
-        'defence' => $this->defence()*1.0,
-        'stamina' => $this->stamina()*0.8,
-        'teamSpirit' => $this->teamSpirit()*1.
+        'attack'  => $this->attack(),
+        'defence' => $this->defence(),
+        'stamina' => $this->stamina(),
+        'teamSpirit' => $this->teamSpirit()
         ];
     }
 

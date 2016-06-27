@@ -9,6 +9,8 @@ $players = array();
 // $fakeData = "idPlayer=0 | 1 | 3 | 5 | 6 | 10 | 11 | 12 | 16 | 17 | 18";
 // $idPlayers = explode(" | ", $fakeData);
 $idPlayers = explode(" | ", $_POST['idPlayer']);
+$coeff = array( "attack" => 2., "defence" => 1.2, "stamina" => 0.7, "teamSpirit" => 0.5 );
+
 foreach ($idPlayers as $id)
 {
   if ( is_numeric($id) )
@@ -16,7 +18,7 @@ foreach ($idPlayers as $id)
     $rep = $db->query('SELECT * FROM player WHERE id = '.($id+1));
     while ( $data = $rep->fetch() )
     {
-      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,[ 'attack' => ($data['att']/10), 'defence' => ($data['def']/10), 'stamina' => ($data['sta']/10), 'teamSpirit' => ($data['spi']/10) ] ));
+      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,[ 'attack' => ($data['att'])*$coeff['attack'], 'defence' => ($data['def'])*$coeff['defence'], 'stamina' => ($data['sta'])*$coeff['stamina'], 'teamSpirit' => ($data['spi'])*$coeff['teamSpirit'] ] ));
     }
     $rep->closeCursor();
   }
