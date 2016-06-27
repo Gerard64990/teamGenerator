@@ -49,6 +49,15 @@
       }
     }
 
+    private function cmpPlayer($a, $b) 
+    {
+      if ($a->skills['attack'] == $b->skills['attack'])
+      {
+        return 0;
+      }
+      return ($a->skills['attack'] > $b->skills['attack']) ? -1 : 1;
+    }
+
     /**
     * @access    public
     * @since     0.1.0
@@ -62,14 +71,18 @@
 
       $this->numTry++;
       $playerLoop = $this->players;
+      usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
 
+      // echo "</br></br>makeTeams";
       for( $i=0; $i<count($this->players)/2; $i++ )
       {
         $player = $playerLoop[0];
+        // echo "</br>".$player->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team1, $player);
 
         $opponent = $this->closestTo($playerLoop, $player);
 
+        // echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
         sort($playerLoop); // Temp: need to find out how to take the first element of an unsorted array
@@ -87,7 +100,7 @@
         return [$this->bestTeam1, $this->bestTeam2];
       }
       else
-        return ( $currentDiff < 2 ) ? [$team1, $team2] : $this->makeTeams();
+        return ( $currentDiff < 5 ) ? [$team1, $team2] : $this->makeTeams();
     }
 
     private function compareTeams($team1, $team2)
@@ -105,8 +118,8 @@
     * @since     0.1.0
     * 
     * @param     Array $players The collection of all the players
-    * @param 	  Team The team wo add the player to
-    * @param 	  Player The player you want to add the to team
+    * @param     Team The team wo add the player to
+    * @param     Player The player you want to add the to team
     * @return    Array The collection of the players, without the given one
     */
     private function filterPlayers($players, $team, $player)
