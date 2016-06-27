@@ -2,18 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>jQuery UI Selectable - Serialize</title>
+  <title>TeamGenerator - Admin</title>
   <link rel="stylesheet" href="jquery/jquery-ui.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/ico" />
   <script src="jquery/jquery-1.10.2.js"></script>
   <script src="jquery/jquery-ui.js"></script>
 </head>
 <body>
 <?php
-$fedyKey = '1QbehZpycrk2XnYxJ0x4gJ-n2cj02KfZPgpeztz2YTZU';
-$julienKey = '1I4ZqRf6U-hh5qL68OskilHJjXBN6VA_xR59Gvo6rFUI';
-$alexKey = '1NydCe6mwnm_lJGPBg7D0FSIShv3UDMGi-Y-hmCq1vs8';
 
+$googleKey = "";
+$keyManager = ( empty($_GET['keyManager']) ? "Julien" : $_GET['keyManager'] );
+
+if ( $keyManager == "Fedy" )
+{
+  $googleKey='1QbehZpycrk2XnYxJ0x4gJ-n2cj02KfZPgpeztz2YTZU';
+}
+else if ( $keyManager == "Alex" )
+{
+  $googleKey='1NydCe6mwnm_lJGPBg7D0FSIShv3UDMGi-Y-hmCq1vs8';
+}
+else if ( $keyManager == "Julien" )
+{
+  $googleKey='1I4ZqRf6U-hh5qL68OskilHJjXBN6VA_xR59Gvo6rFUI';
+}
+else
+{
+  echo "invalid Manager !";
+  return;
+}
+
+echo "Populate with ".$keyManager." as manager !";
 
 require_once('../db/database.php');
 $dbObject = new DataBase();
@@ -33,19 +53,16 @@ CREATE TABLE IF NOT EXISTS `player` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ');
 
-$handle = fopen('https://docs.google.com/feeds/download/spreadsheets/Export?key='.$alexKey.'&exportFormat=csv', 'r');
-// $handle = fopen('StatsF.csv', 'r');
+$handle = fopen('https://docs.google.com/feeds/download/spreadsheets/Export?key='.$googleKey.'&exportFormat=csv', 'r');
 
 while ($data = fgetcsv($handle, 1000, ","))
 {
   foreach ($data as $key => $value) $data[$key] = addslashes($data[$key]);
-  if ( strlen($data[0]) > 2 )
+  if ( strlen($data[1]) > 2 )
   {
-    $db->query("INSERT INTO `player` (`firstName`, `lastName`, `att`, `def`, `sta`, `spi`) VALUES ( '".$data[0]."', '".$data[1]."', ".$data[2].", ".$data[3].", ".$data[4].", ".$data[5].")");
+    $db->query("INSERT INTO `player` (`firstName`, `lastName`, `att`, `def`, `sta`, `spi`) VALUES ( '".$data[1]."', '".$data[2]."', ".$data[3].", ".$data[4].", ".$data[5].", ".$data[6].")");
   }
 }
-
-
 
 
 ?>
