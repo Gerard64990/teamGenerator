@@ -27,6 +27,10 @@ else if ( $keyManager == "Julien" )
 {
   $googleKey='1I4ZqRf6U-hh5qL68OskilHJjXBN6VA_xR59Gvo6rFUI';
 }
+else if ( $keyManager == "Gege" )
+{
+  $googleKey='1VRhuyaWn81aUAbvXBgULB1UQxBurgnneuzn2UwEH_fg';
+}
 else
 {
   echo "invalid Manager !";

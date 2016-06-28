@@ -9,7 +9,7 @@ $players = array();
 // $fakeData = "idPlayer=0 | 1 | 3 | 5 | 6 | 10 | 11 | 12 | 16 | 17 | 18";
 // $idPlayers = explode(" | ", $fakeData);
 $idPlayers = explode(" | ", $_POST['idPlayer']);
-$coeff = array( "attack" => 2., "defence" => 1.2, "stamina" => 0.7, "teamSpirit" => 0.5 );
+$coeff = array( "attack" => 2.8, "defence" => 1.2, "stamina" => 0.7, "teamSpirit" => 0.5 );
 
 foreach ($idPlayers as $id)
 {
@@ -23,10 +23,12 @@ foreach ($idPlayers as $id)
     $rep->closeCursor();
   }
 }
-shuffle($players);
+// shuffle($players);
 
 $teamMaker = new TeamMaker($players);
+echo '<span id="debug">';
 $teams = $teamMaker->makeTeams();
+echo '</span>';
 ?>
 
 <div class="image">

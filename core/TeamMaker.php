@@ -71,9 +71,9 @@
 
       $this->numTry++;
       $playerLoop = $this->players;
-      usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
+      //usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
 
-      // echo "</br></br>makeTeams";
+      echo "</br></br>makeTeams";
       for( $i=0; $i<count($this->players)/2; $i++ )
       {
         $player = $playerLoop[0];
@@ -82,7 +82,7 @@
 
         $opponent = $this->closestTo($playerLoop, $player);
 
-        // echo "</br>".$player->name." VS ".$opponent->name;
+        echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
         sort($playerLoop); // Temp: need to find out how to take the first element of an unsorted array
@@ -94,13 +94,13 @@
         $this->bestTeam1 = $team1;
         $this->bestTeam2 = $team2;
       }
-      if ( $this->numTry > 200 )
+      if ( $this->numTry > 210 )
       {
-        // echo "STOP!!!";
+        echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
         return [$this->bestTeam1, $this->bestTeam2];
       }
       else
-        return ( $currentDiff < 5 ) ? [$team1, $team2] : $this->makeTeams();
+        return ( $currentDiff < 1 ) ? [$team1, $team2] : $this->makeTeams();
     }
 
     private function compareTeams($team1, $team2)

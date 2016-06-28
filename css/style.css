@@ -54,3 +54,12 @@ h5 {
   left: 292px;
   width: 200px;
 }
+
+
+#debug {
+  position: relative;
+  top: 425px;
+  left: 292px;
+  width: 200px;
+  font-size: 0.5em;
+}
