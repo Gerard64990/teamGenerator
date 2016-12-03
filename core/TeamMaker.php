@@ -85,7 +85,7 @@
         echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
-        sort($playerLoop); // Temp: need to find out how to take the first element of an unsorted array
+        $playerLoop=array_values($playerLoop);
       }
       $currentDiff = $this->compareTeams($team1, $team2);
       if ( $currentDiff < $this->bestDiff )
