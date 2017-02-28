@@ -51,11 +51,11 @@
 
     private function cmpPlayer($a, $b) 
     {
-      if ($a->skills['attack'] == $b->skills['attack'])
+      if ($a->level() == $b->level())
       {
         return 0;
       }
-      return ($a->skills['attack'] > $b->skills['attack']) ? -1 : 1;
+      return ($a->level() > $b->level()) ? -1 : 1;
     }
 
     /**
@@ -71,9 +71,9 @@
 
       $this->numTry++;
       $playerLoop = $this->players;
-      //usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
+      // usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
 
-      echo "</br></br>makeTeams";
+      // echo "</br></br>makeTeams";
       for( $i=0; $i<count($this->players)/2; $i++ )
       {
         $player = $playerLoop[0];
@@ -82,7 +82,7 @@
 
         $opponent = $this->closestTo($playerLoop, $player);
 
-        echo "</br>".$player->name." VS ".$opponent->name;
+        // echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
         $playerLoop=array_values($playerLoop);
@@ -94,7 +94,7 @@
         $this->bestTeam1 = $team1;
         $this->bestTeam2 = $team2;
       }
-      if ( $this->numTry > 210 )
+      if ( $this->numTry > 230 )
       {
         echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
         return [$this->bestTeam1, $this->bestTeam2];
@@ -105,9 +105,9 @@
 
     private function compareTeams($team1, $team2)
     {
-      $t1strength = array_reduce( $team1->level(), function($attack, $defence) { return $attack + $defence; } );
+      $t1strength = array_reduce( $team1->level(), function($prevSkill, $currSkill) { return $prevSkill + $currSkill; } );
 
-      $t2strength = array_reduce( $team2->level(), function($attack, $defence) { return $attack + $defence; } );
+      $t2strength = array_reduce( $team2->level(), function($prevSkill, $currSkill) { return $prevSkill + $currSkill; } );
       // echo "t1strength: ".$t1strength;
       // echo " t2strength: ".$t2strength."  DIFF ".($t1strength-$t2strength)."</br>";
       return abs($t1strength - $t2strength);

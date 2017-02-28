@@ -57,6 +57,18 @@ CREATE TABLE IF NOT EXISTS `player` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ');
 
+$db->query('DROP TABLE IF EXISTS `coeff`');
+$db->query('
+CREATE TABLE IF NOT EXISTS `coeff` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `att` float(4) NOT NULL,
+  `def` float(4) NOT NULL,
+  `sta` float(4) NOT NULL,
+  `spi` float(4) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+');
+
 $handle = fopen('https://docs.google.com/feeds/download/spreadsheets/Export?key='.$googleKey.'&exportFormat=csv', 'r');
 
 while ($data = fgetcsv($handle, 1000, ","))
@@ -65,6 +77,10 @@ while ($data = fgetcsv($handle, 1000, ","))
   if ( strlen($data[1]) > 2 )
   {
     $db->query("INSERT INTO `player` (`firstName`, `lastName`, `att`, `def`, `sta`, `spi`) VALUES ( '".$data[1]."', '".$data[2]."', ".$data[3].", ".$data[4].", ".$data[5].", ".$data[6].")");
+  }
+  else if ( $data[0] == "Coefficient stats" )
+  {
+    $db->query("INSERT INTO `coeff` (`att`, `def`, `sta`, `spi`) VALUES ( ".$data[3].", ".$data[4].", ".$data[5].", ".$data[6].")");
   }
 }
 

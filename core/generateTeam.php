@@ -9,7 +9,13 @@ $players = array();
 // $fakeData = "idPlayer=0 | 1 | 3 | 5 | 6 | 10 | 11 | 12 | 16 | 17 | 18";
 // $idPlayers = explode(" | ", $fakeData);
 $idPlayers = explode(" | ", $_POST['idPlayer']);
-$coeff = array( "attack" => 2., "defence" => 1.5, "stamina" => 0.8, "teamSpirit" => 0.6);
+
+$rep = $db->query('SELECT * FROM coeff WHERE id = 1');
+while ( $data = $rep->fetch() )
+{
+  $coeff = array( "attack" => $data['att'], "defence" => $data['def'], "stamina" => $data['sta'], "teamSpirit" => $data['spi']);
+}
+$rep->closeCursor();
 
 foreach ($idPlayers as $id)
 {
