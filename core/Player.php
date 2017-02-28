@@ -25,7 +25,7 @@
     */
     public function level()
     {
-      return array_reduce( $this->skills, function($prevSkill, $currSkill) { return $prevSkill + $currSkill; } );
+      return $this->skills;
     }
   }
 ?>

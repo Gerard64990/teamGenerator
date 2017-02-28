@@ -47,12 +47,7 @@
     */
     public function level()
     {
-      return [
-        'attack'  => $this->attack(),
-        'defence' => $this->defence(),
-        'stamina' => $this->stamina(),
-        'teamSpirit' => $this->teamSpirit()
-        ];
+      return $this->skill();
     }
 
     /**
@@ -61,85 +56,20 @@
     * 
     * @return Array The attack of all the players
     */
-    public function attack()
+    public function skill()
     {
-      return array_reduce( $this->playersAttack(), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
+      return array_reduce( $this->playersSkill(), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
     }
 
-    /**
-    * @access public
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    public function defence()
-    {
-      return array_reduce( $this->playersDefence(), function($prevDefence, $currDefence) { return $prevDefence + $currDefence; } );
-    }
-
-    /**
-    * @access public
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    public function stamina()
-    {
-      return array_reduce( $this->playersStamina(), function($prevStamina, $currStamina) { return $prevStamina + $currStamina; } );
-    }
-
-    /**
-    * @access public
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    public function teamSpirit()
-    {
-      return array_reduce( $this->playersTeamSpirit(), function($prevTeamSpirit, $currTeamSpirit) { return $prevTeamSpirit + $currTeamSpirit; } );
-    }
     /**
     * @access private
     * @since 0.1.0
     * 
     * @return Array The attack of all the players
     */
-    private function playersAttack()
+    private function playersSkill()
     {
-      return array_map( function($player) { return $player->skills['attack']; }, $this->players );
-    }
-
-    /**
-    * @access private
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    private function playersDefence()
-    {
-      return array_map( function($player) { return $player->skills['defence']; }, $this->players );
-    }
-
-    /**
-    * @access private
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    private function playersStamina()
-    {
-      return array_map( function($player) { return $player->skills['stamina']; }, $this->players );
-    }
-
-    /**
-    * @access private
-    * @since 0.1.0
-    * 
-    * @return Array The defence of all the players
-    */
-    private function playersTeamSpirit()
-    {
-      return array_map( function($player) { return $player->skills['teamSpirit']; }, $this->players );
+      return array_map( function($player) { return $player->skills; }, $this->players );
     }
   }
 ?>

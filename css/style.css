@@ -22,8 +22,7 @@ h5 {
 
 .pitch {
   position: absolute; 
-  top: 0px;
-  left: 0; 
+  top: 64px;
   width: 100%; 
   color: white; 
   font: bold 12px/24px Helvetica, Sans-Serif; 
@@ -31,6 +30,17 @@ h5 {
   /*background: rgba(0, 0, 0, 0.1);*/
   padding: 5px;
   color: #D0D0D0;
+}
+
+.pitch #total_team1 {
+  position: relative;
+  left: 160px;
+  color: white;
+}
+.pitch #total_team2 {
+  position: relative;
+  left: -75px;
+  color: white;
 }
 
 .pitch #team1 {
@@ -44,7 +54,7 @@ h5 {
 
 .pitch #player {
   position: relative;
-  top: 25px;
+  top: -15px;
   color: white;
 }
 

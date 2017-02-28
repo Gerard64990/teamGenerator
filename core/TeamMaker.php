@@ -37,12 +37,7 @@
       {
         $emptyPlayer = new Player(
           'Empty',
-          [
-            'attack' => 0,
-            'defence' => 0,
-            'stamina' => 0,
-            'teamSpirit' => 0
-          ]
+          0
         );
 
         $this->players[] = $emptyPlayer;
@@ -73,7 +68,7 @@
       $playerLoop = $this->players;
       // usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
 
-      // echo "</br></br>makeTeams";
+      echo "</br></br>makeTeams";
       for( $i=0; $i<count($this->players)/2; $i++ )
       {
         $player = $playerLoop[0];
@@ -82,7 +77,7 @@
 
         $opponent = $this->closestTo($playerLoop, $player);
 
-        // echo "</br>".$player->name." VS ".$opponent->name;
+        echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
         $playerLoop=array_values($playerLoop);
@@ -96,18 +91,18 @@
       }
       if ( $this->numTry > 230 )
       {
-        echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!';
+        echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! '.$this->bestDiff;
         return [$this->bestTeam1, $this->bestTeam2];
       }
       else
-        return ( $currentDiff < 1 ) ? [$team1, $team2] : $this->makeTeams();
+        return ( $currentDiff < 10 ) ? [$team1, $team2] : $this->makeTeams();
     }
 
     private function compareTeams($team1, $team2)
     {
-      $t1strength = array_reduce( $team1->level(), function($prevSkill, $currSkill) { return $prevSkill + $currSkill; } );
+      $t1strength = $team1->level();
 
-      $t2strength = array_reduce( $team2->level(), function($prevSkill, $currSkill) { return $prevSkill + $currSkill; } );
+      $t2strength = $team2->level();
       // echo "t1strength: ".$t1strength;
       // echo " t2strength: ".$t2strength."  DIFF ".($t1strength-$t2strength)."</br>";
       return abs($t1strength - $t2strength);

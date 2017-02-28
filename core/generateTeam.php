@@ -24,7 +24,7 @@ foreach ($idPlayers as $id)
     $rep = $db->query('SELECT * FROM player WHERE id = '.($id+1));
     while ( $data = $rep->fetch() )
     {
-      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,[ 'attack' => ($data['att'])*$coeff['attack'], 'defence' => ($data['def'])*$coeff['defence'], 'stamina' => ($data['sta'])*$coeff['stamina'], 'teamSpirit' => ($data['spi'])*$coeff['teamSpirit'] ] ));
+      array_push($players, new Player( $data['firstName']." ".$data['lastName']    ,($data['att']*$coeff['attack'])+($data['def']*$coeff['defence'])+($data['sta']*$coeff['stamina'])+($data['spi']*$coeff['teamSpirit']) ));
     }
     $rep->closeCursor();
   }
@@ -41,9 +41,7 @@ echo '</span>';
 <img src="img/soccer-field.jpg" alt="" />
   <div class="pitch">
     <div id="team1">
-      <span id="teamStat">Attack: <?=$teams[0]->level()['attack'];?> | Defence: <?=$teams[0]->level()['defence'];?></br>
-      Stamina: <?=$teams[0]->level()['stamina'];?> | TeamSpirit: <?=$teams[0]->level()['teamSpirit'];?></br>
-      TOTAL : <?=array_reduce( $teams[0]->level(), function($attack, $defence) { return $attack + $defence; });?></span>
+      <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
       <ul>
         <?php
           foreach ($teams[0]->players as $player)
@@ -54,9 +52,7 @@ echo '</span>';
       </ul>
     </div>
     <div id="team2">
-      <span id="teamStat">Attack: <?=$teams[1]->level()['attack'];?> | Defence: <?=$teams[1]->level()['defence'];?></br>
-      Stamina: <?=$teams[1]->level()['stamina'];?> | TeamSpirit: <?=$teams[1]->level()['teamSpirit'];?></br>
-      TOTAL : <?=array_reduce( $teams[1]->level(), function($attack, $defence) { return $attack + $defence; });?></span>
+      <div id="total_team2">TOTAL : <?=$teams[1]->level();?></div>
       <ul>
         <?php
         foreach ($teams[1]->players as $player)
