@@ -33,13 +33,15 @@ shuffle($players);
 
 $teamMaker = new TeamMaker($players);
 echo '<span id="debug">';
+set_time_limit(0);
 $teams = $teamMaker->makeTeams();
 echo '</span>';
 ?>
 
 <div class="image">
 <img src="img/soccer-field.jpg" alt="" />
-  <div class="pitch">
+  <div class="pitch">    
+    <div id="diff"> DIFF: <?= abs($teams[0]->level() - $teams[1]->level()); ?>  </div>
     <div id="team1">
       <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
       <ul>

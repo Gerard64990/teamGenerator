@@ -42,6 +42,12 @@ h5 {
   left: -75px;
   color: white;
 }
+.pitch #diff {
+  position: absolute;
+  left: 288px;
+  top: 65px;
+  color: white;
+}
 
 .pitch #team1 {
   position: absolute;
@@ -71,5 +77,5 @@ h5 {
   top: 425px;
   left: 292px;
   width: 200px;
-  font-size: 0.5em;
+  font-size: 0.7em;
 }

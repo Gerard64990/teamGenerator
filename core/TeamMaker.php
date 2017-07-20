@@ -64,11 +64,13 @@
       $team1 = new Team();
       $team2 = new Team();
 
+      $numAuthorizedLoop = 230;
+
       $this->numTry++;
       $playerLoop = $this->players;
       // usort($playerLoop, array('TeamMaker', 'cmpPlayer'));
 
-      echo "</br></br>makeTeams";
+      // echo "</br></br>makeTeams";
       for( $i=0; $i<count($this->players)/2; $i++ )
       {
         $player = $playerLoop[0];
@@ -77,7 +79,7 @@
 
         $opponent = $this->closestTo($playerLoop, $player);
 
-        echo "</br>".$player->name." VS ".$opponent->name;
+        // echo "</br>".$player->name." VS ".$opponent->name;
         $playerLoop = $this->filterPlayers($playerLoop, $team2, $opponent);
 
         $playerLoop=array_values($playerLoop);
@@ -89,9 +91,9 @@
         $this->bestTeam1 = $team1;
         $this->bestTeam2 = $team2;
       }
-      if ( $this->numTry > 230 )
+      if ( $this->numTry > $numAuthorizedLoop )
       {
-        echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! '.$this->bestDiff;
+        echo 'STOP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! To match php loop: '.$numAuthorizedLoop;
         return [$this->bestTeam1, $this->bestTeam2];
       }
       else
