@@ -1,5 +1,7 @@
 #!"C:\Python27\python.exe"
 
+import argparse
+
 """
   Partition Problem, ok for small sequences
 """
@@ -47,9 +49,14 @@ def greedierPartition(S):
 
 # ===========================================================================
 if __name__ == "__main__":
-  caseList = [
-    [100, 5, 4, 8, 1, 2, 2,3],
-  ]
+  caseList = []
+  # print args[1]
+  parser = argparse.ArgumentParser(description='TeamGenerator')
+  parser.add_argument('--numbers', help='list number', metavar='TARGET_PROJECT', nargs='*', type=int)
+
+  args = vars(parser.parse_args())
+  caseList =  [args['numbers']]
+
   for testCase in caseList:
     diff, a, b = greedierPartition(testCase)
     print 'Sequence: {}'.format(testCase)

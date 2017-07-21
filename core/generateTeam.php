@@ -31,38 +31,22 @@ foreach ($idPlayers as $id)
 }
 shuffle($players);
 
-$teamMaker = new TeamMaker($players);
+
+// $teamMaker = new TeamMaker($players);
 echo '<span id="debug">';
+$players_skill_string = "";
+foreach ($players as $player)
+{
+  $players_skill_string = $players_skill_string.intval($player->skills). " ";
+}
+
+$result = exec("C:\Python27\python.exe ../core/test.py --numbers ".$players_skill_string);
+// print "C:\Python27\python.exe ../core/test.py --numbers ".$players_skill_string;
+echo $result;
+
+
 set_time_limit(0);
-$teams = $teamMaker->makeTeams();
+// $teams = $teamMaker->makeTeams();
 echo '</span>';
 ?>
 
-<div class="image">
-<img src="img/soccer-field.jpg" alt="" />
-  <div class="pitch">    
-    <div id="diff"> DIFF: <?= abs($teams[0]->level() - $teams[1]->level()); ?>  </div>
-    <div id="team1">
-      <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
-      <ul>
-        <?php
-          foreach ($teams[0]->players as $player)
-          {
-            echo '<li id="player">' . $player->name . '</li>';
-          }
-        ?>
-      </ul>
-    </div>
-    <div id="team2">
-      <div id="total_team2">TOTAL : <?=$teams[1]->level();?></div>
-      <ul>
-        <?php
-        foreach ($teams[1]->players as $player)
-        {
-          echo '<li id="player">' . $player->name . '</li>';
-        }
-        ?>
-      </ul>
-    </div>
-  </div>
-</div>

@@ -66,10 +66,7 @@ $rep->closeCursor();
 <form id="myForm" method="post">
   <input type="hidden" name="idPlayer" id="select-result2" />
   <span>
-  <?php
-  $result = exec("C:\Python27\python.exe core/test.py");
-  echo $result;
-?>
+
   You have selected:</span> <span id="numSelected">0</span><span> players</span>.
   <p><input type="submit" id="submitFormData" value="Generate" /></p>
 </form>
