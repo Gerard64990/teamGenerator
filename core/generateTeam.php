@@ -37,16 +37,74 @@ echo '<span id="debug">';
 $players_skill_string = "";
 foreach ($players as $player)
 {
-  $players_skill_string = $players_skill_string.intval($player->skills). " ";
+  $players_skill_string = $players_skill_string.intval($player->level()). " ";
 }
 
 $result = exec("C:\Python27\python.exe ../core/test.py --numbers ".$players_skill_string);
 // print "C:\Python27\python.exe ../core/test.py --numbers ".$players_skill_string;
-echo $result;
+// echo $result . "</br>";
 
+$team_str = explode("|", $result);
+$team1_str = explode(" ", $team_str[0]);
+$team2_str = explode(" ", $team_str[1]);
+
+// echo $team2_str[2];
+$team1 = new Team();
+$team2 = new Team();
+
+// 
+
+foreach ($team1_str as $coeff_player) {
+  foreach ($players as $player) {
+    if ( $coeff_player == $player->level() )
+    {
+      $team1->add($player);
+      break;
+    }
+  }
+}
+foreach ($team2_str as $coeff_player) {
+  foreach ($players as $player) {
+    if ( $coeff_player == $player->level() )
+    {
+      $team2->add($player);
+      break;
+    }
+  }
+}
+
+$teams = [$team1, $team2];
 
 set_time_limit(0);
 // $teams = $teamMaker->makeTeams();
 echo '</span>';
 ?>
 
+<div class="image">
+<img src="img/soccer-field.jpg" alt="" />
+  <div class="pitch">    
+    <div id="diff"> DIFF: <?= abs($teams[0]->level() - $teams[1]->level()); ?>  </div>
+    <div id="team1">
+      <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
+      <ul>
+        <?php
+          foreach ($teams[0]->players as $player)
+          {
+            echo '<li id="player">' . $player->name . '</li>';
+          }
+        ?>
+      </ul>
+    </div>
+    <div id="team2">
+      <div id="total_team2">TOTAL : <?=$teams[1]->level();?></div>
+      <ul>
+        <?php
+        foreach ($teams[1]->players as $player)
+        {
+          echo '<li id="player">' . $player->name . '</li>';
+        }
+        ?>
+      </ul>
+    </div>
+  </div>
+</div>

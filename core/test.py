@@ -2,50 +2,37 @@
 
 import argparse
 
-"""
-  Partition Problem, ok for small sequences
-"""
-# ===========================================================================
-def greedyPartition(S, X=None):
-  A, B = [], []
-  if X == None:
-    T = S
-  else:
-    T = []
-    for sx,sv in enumerate(S):
-      if sx in X:
-        A.append(sv)
-      else:
-        T.append(sv)
-  T.sort()
-  for t in T:
-    if sum(A) <= sum(B):
-      A.append(t)
-    else:
-      B.append(t)
 
-  diff = abs(sum(A) - sum(B))
-  return diff, A, B
+def team(t):
+    iterations = range(2, len(t)/2+1)
 
-# ---------------------------------------------------------------------------
-def greedierPartition(S):
-  """ Create starter of all pairs from S, there are sz*(sz-1)/2 cases,
-      pick the best one.
-   """
-  sz = len(S)
-  minDiff = 99999999999
-  minA    = None
-  minB    = None
-  for x in range(0,sz-1):
-    for y in range(x+1,sz):
-      d,a,b = greedyPartition(S, X=(x,y))
-      if d == 0:
-        return d,a,b
-      if d < minDiff:
-        minDiff = d
-        minA    = a
-        minB    = b
-  return minDiff, minA, minB
+    totalscore = sum(t)
+    halftotalscore = totalscore/2.0
+
+    oldmoves = {}
+
+    for p in t:
+        people_left = t[:]
+        people_left.remove(p)
+        oldmoves[p] = people_left
+
+    if iterations == []:
+        solution = min(map(lambda i: (abs(float(i)-halftotalscore), i), oldmoves.keys()))
+        return (solution[1], sum(oldmoves[solution[1]]), oldmoves[solution[1]])
+
+    for n in iterations:
+        newmoves = {}
+        for total, roster in oldmoves.iteritems():
+            for p in roster:
+                people_left = roster[:]
+                people_left.remove(p)
+                newtotal = total+p
+                if newtotal > halftotalscore: continue
+                newmoves[newtotal] = people_left
+        oldmoves = newmoves
+
+    solution = min(map(lambda i: (abs(float(i)-halftotalscore), i), oldmoves.keys()))
+    return (solution[1], sum(oldmoves[solution[1]]), oldmoves[solution[1]])
 
 # ===========================================================================
 if __name__ == "__main__":
@@ -55,9 +42,16 @@ if __name__ == "__main__":
   parser.add_argument('--numbers', help='list number', metavar='TARGET_PROJECT', nargs='*', type=int)
 
   args = vars(parser.parse_args())
-  caseList =  [args['numbers']]
+  caseList2 =  args['numbers']
 
-  for testCase in caseList:
-    diff, a, b = greedierPartition(testCase)
-    print 'Sequence: {}'.format(testCase)
-    print '  diff {}: {}'.format(diff, (a,b))
+  team_1 = team(caseList2)[2]
+  team_2 = []
+  for number in caseList2:
+    if number not in team_1:
+      team_2.append(number)
+
+  team_1_str = ' '.join(str(e) for e in team_1)
+  team_2_str = ' '.join(str(e) for e in team_2)
+
+  print team_1_str + "|" + team_2_str
+

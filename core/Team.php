@@ -69,7 +69,7 @@
     */
     private function playersSkill()
     {
-      return array_map( function($player) { return $player->skills; }, $this->players );
+      return array_map( function($player) { return $player->level(); }, $this->players );
     }
   }
 ?>

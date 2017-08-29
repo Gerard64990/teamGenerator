@@ -25,7 +25,7 @@
     */
     public function level()
     {
-      return $this->skills;
+      return variant_int($this->skills);
     }
   }
 ?>
