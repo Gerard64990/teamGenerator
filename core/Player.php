@@ -9,10 +9,14 @@
     * 
     * @return    void
     */
-    public function __construct($name, $skills, $role='player', $foot='right')
+    public function __construct($name, $skills, $att, $def, $sta, $tsp, $role='player', $foot='right')
     {
       $this->name = $name;
       $this->skills = $skills;
+      $this->att = $att;
+      $this->def = $def;
+      $this->sta = $sta;
+      $this->tsp = $tsp;
       $this->role = $role;
       $this->foot = $foot;
     }

@@ -22,17 +22,6 @@
     * 
     * @return    Player The player object
     */
-    public function getNames()
-    {
-      return array_map( function($player) { return $player->name; }, $this->players );
-    }
-
-    /**
-    * @access    public
-    * @since     0.1.0
-    * 
-    * @return    Player The player object
-    */
     public function add($player)
     {
       array_push($this->players, $player);
@@ -48,6 +37,22 @@
     public function level()
     {
       return $this->skill();
+    }
+    public function levelAtt()
+    {
+      return array_reduce( array_map( function($player) { return $player->att; }, $this->players ), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
+    }
+    public function levelDef()
+    {
+      return array_reduce( array_map( function($player) { return $player->def; }, $this->players ), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
+    }
+    public function levelSta()
+    {
+      return array_reduce( array_map( function($player) { return $player->sta; }, $this->players ), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
+    }
+    public function levelTsp()
+    {
+      return array_reduce( array_map( function($player) { return $player->tsp; }, $this->players ), function($prevAttack, $currAttack) { return $prevAttack + $currAttack; } );
     }
 
     /**

@@ -1,6 +1,8 @@
 #!"C:\Python27\python.exe"
 
 import argparse
+import random
+
 
 
 def team(t):
@@ -31,22 +33,26 @@ def team(t):
                 newmoves[newtotal] = people_left
         oldmoves = newmoves
 
-    solution = min(map(lambda i: (abs(float(i)-halftotalscore), i), oldmoves.keys()))
-    return (solution[1], sum(oldmoves[solution[1]]), oldmoves[solution[1]])
+    solutions = []
+
+    for num_iter in range(4):
+        key = min(map(lambda i: (abs(float(i)-halftotalscore), i), oldmoves.keys()))[1]
+        solutions.append(oldmoves[key])
+        del oldmoves[key]
+
+    random.shuffle( solutions )
+    return solutions[0]
 
 # ===========================================================================
 if __name__ == "__main__":
-  caseList = []
-  # print args[1]
   parser = argparse.ArgumentParser(description='TeamGenerator')
   parser.add_argument('--numbers', help='list number', metavar='TARGET_PROJECT', nargs='*', type=int)
 
-  args = vars(parser.parse_args())
-  caseList2 =  args['numbers']
+  players = vars(parser.parse_args())['numbers']
 
-  team_1 = team(caseList2)[2]
+  team_1 = team(players)
   team_2 = []
-  for number in caseList2:
+  for number in players:
     if number not in team_1:
       team_2.append(number)
 
@@ -54,4 +60,15 @@ if __name__ == "__main__":
   team_2_str = ' '.join(str(e) for e in team_2)
 
   print team_1_str + "|" + team_2_str
+
+  team1_value = 0
+  team2_value = 0
+  for value_player in team_1:
+    team1_value += value_player
+  for value_player in team_2:
+    team2_value += value_player
+
+#   print team1_value
+#   print team2_value
+#   print abs(team2_value - team1_value)
 
