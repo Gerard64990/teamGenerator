@@ -6,18 +6,22 @@ body {
 #feedback { font-size: 1.4em; }
 #selectable .ui-selecting { background: #FECA40; }
 #selectable .ui-selected { background: #F39814; color: white; }
-#selectable { position: absolute; top: 5px; list-style-type: none; margin: 0; padding: 0; width: 250px; }
+#selectable { position: absolute; top: 5px; list-style-type: none; margin: 0; padding: 0; width: 180px; }
 #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
   
 .image { 
    position: absolute; 
    width: 100%; /* for IE 6 */
-   left: 300px;
+   left: 365px;
    top: 10px;
 }
 
 h5 {
   font-size: 1em;
+}
+
+.chart-container {
+  position: absolute; top: 10px; left: 120px; width: 250px;
 }
 
 .pitch {
@@ -67,7 +71,7 @@ h5 {
 #myForm {
   position: relative;
   top: 425px;
-  left: 292px;
+  left: 357px;
   width: 200px;
 }
 
