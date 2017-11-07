@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="jquery/jquery-ui.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="img/favicon.ico" type="image/ico" />
-  <script src="jquery/jquery-1.10.2.js"></script>
+  <script src="jquery/jquery-3.2.1.js"></script>
   <script src="jquery/jquery-ui.js"></script>
   <script>
   $(function() {
