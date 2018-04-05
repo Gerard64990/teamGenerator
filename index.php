@@ -96,8 +96,8 @@ function displayTeam(teams) {
   displayPlayerNames(ul[0], teams[0].players );
   displayPlayerNames(ul[1], teams[1].players );
 
-  document.getElementById('total_team1').innerHTML = 'TOTAL : ' + totalTeam(teams[0].players);
-  document.getElementById('total_team2').innerHTML = 'TOTAL : ' + totalTeam(teams[1].players);
+  document.getElementById('total_team1').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[0].players));
+  document.getElementById('total_team2').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[1].players));
 
   document.getElementById('diff').innerHTML =
   "DIFF: " + parseInt(totalTeam(teams[0].players) - totalTeam(teams[1].players)) + "</br>\
@@ -105,6 +105,29 @@ function displayTeam(teams) {
                     D: " + parseInt(totalDefTeam(teams[0].players) - totalDefTeam(teams[1].players)) + "&nbsp;&nbsp;\
                     S: " + parseInt(totalStaTeam(teams[0].players) - totalStaTeam(teams[1].players)) + "&nbsp;&nbsp;\
                     T: " + parseInt(totalTspTeam(teams[0].players) - totalTspTeam(teams[1].players)) + "</br>";
+}
+
+function reloadTeams() 
+{
+  var teams = { "0" : { "players" : [] }, "1" : { "players" : [] } };
+
+  var team1Lis = document.getElementById('results').getElementsByTagName('ul')[0].getElementsByTagName("li");
+  var team2Lis = document.getElementById('results').getElementsByTagName('ul')[1].getElementsByTagName("li");
+  var playersVar = [];
+  for (var i = 0; i < team1Lis.length; i++)
+  {    
+    playersVar.push(team1Lis[i].property);
+  }
+  teams[0].players = playersVar;
+
+  playersVar = [];
+  for (var i = 0; i < team2Lis.length; i++)
+  {    
+    playersVar.push(team2Lis[i].property);
+  }
+  teams[1].players = playersVar;
+
+  displayTeam(teams);
 }
 
   $(function() {
@@ -127,8 +150,7 @@ function displayTeam(teams) {
   $( function() {
     $( "#sortable1, #sortable2" ).sortable({
       connectWith: ".connectedSortable",
-      stop: function( event, ui ) { 
-            console.log(document.getElementById('results').getElementsByTagName('ul')[0].getElementsByTagName("li")[0].property);}
+      stop: function( event, ui ) { reloadTeams() }
     }).disableSelection();
   } );
 
@@ -221,11 +243,11 @@ var ctx = document.getElementById('<?php echo $value; ?>').getContext('2d');
     <div id="diff">DIFF: </div>
     <div id="team1">
       <div id="total_team1">TOTAL : </div>
-      <ul id="sortable1" class="connectedSortable"><li id="player">11</li><li id="player">BB</li></ul>
+      <ul id="sortable1" class="connectedSortable"></ul>
     </div>
     <div id="team2">
       <div id="total_team2">TOTAL : </div>
-      <ul id="sortable2" class="connectedSortable"><li id="player">11</li><li id="player">BB</li></ul>
+      <ul id="sortable2" class="connectedSortable"></ul>
     </div>
   </div>
 </div>
