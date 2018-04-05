@@ -1,8 +1,8 @@
-
 <?php
 require_once('Player.php');
 require_once('Team.php');
 require_once('../db/database.php');
+
 
 $dbObject = new DataBase();
 $db = $dbObject->pdo;
@@ -32,7 +32,6 @@ foreach ($idPlayers as $id)
 }
 // shuffle($players);
 
-echo '<span id="debug">';
 $players_skill_string = "";
 foreach ($players as $player)
 {
@@ -69,41 +68,6 @@ foreach ($team2_str as $coeff_player) {
 }
 
 $teams = [$team1, $team2];
-
-echo '</span>';
+echo json_encode($teams);
 ?>
 
-<div class="image">
-<img src="img/soccer-field.jpg" alt="" />
-  <div class="pitch">    
-    <div id="diff"> DIFF: <?= ($teams[0]->level() - $teams[1]->level()); ?></br>
-                    A: <?= ($teams[0]->levelAtt() - $teams[1]->levelAtt()); ?>&nbsp;&nbsp;
-                    D: <?= ($teams[0]->levelDef() - $teams[1]->levelDef()); ?>&nbsp;&nbsp;
-                    S: <?= ($teams[0]->levelSta() - $teams[1]->levelSta()); ?>&nbsp;&nbsp;
-                    T: <?= ($teams[0]->levelTsp() - $teams[1]->levelTsp()); ?></br>
-                    
-                     </div>
-    <div id="team1">
-      <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
-      <ul>
-        <?php
-          foreach ($teams[0]->players as $player)
-          {
-            echo '<li id="player">' . $player->name . '</li>';
-          }
-        ?>
-      </ul>
-    </div>
-    <div id="team2">
-      <div id="total_team2">TOTAL : <?=$teams[1]->level();?></div>
-      <ul>
-        <?php
-        foreach ($teams[1]->players as $player)
-        {
-          echo '<li id="player">' . $player->name . '</li>';
-        }
-        ?>
-      </ul>
-    </div>
-  </div>
-</div>

@@ -37,20 +37,124 @@
       }
     });
   });
+
+function displayPlayerNames(ul, players) {
+  ul.innerHTML = '';
+  for (var i = 0; i < players.length; i++) {
+    var node = document.createElement("li");
+    node.id = "player";
+    var textnode = document.createTextNode(players[i].name);
+    node.appendChild(textnode); 
+    node.property = players[i];
+    ul.appendChild(node);
+  }
+}
+
+function totalTeam(players)
+{
+  var totalSkills = 0;
+  for (var i = 0; i < players.length; i++)
+  {
+    totalSkills += players[i].skills;
+  }
+  return totalSkills;
+}
+
+function totalAttTeam(players)
+{
+  var total = 0;
+  for (var i = 0; i < players.length; i++)
+    total += parseInt(players[i].att);
+  return total;
+}
+function totalDefTeam(players)
+{
+  var total = 0;
+  for (var i = 0; i < players.length; i++)
+    total += parseInt(players[i].def);
+  return total;
+}
+function totalStaTeam(players)
+{
+  var total = 0;
+  for (var i = 0; i < players.length; i++)
+    total += parseInt(players[i].sta);
+  return total;
+}
+function totalTspTeam(players)
+{
+  var total = 0;
+  for (var i = 0; i < players.length; i++)
+    total += parseInt(players[i].tsp);
+  return total;
+}
+
+function displayTeam(teams) {
+  var result = document.getElementById('results');
+
+  var ul = result.getElementsByTagName('ul');
+  displayPlayerNames(ul[0], teams[0].players );
+  displayPlayerNames(ul[1], teams[1].players );
+
+  document.getElementById('total_team1').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[0].players));
+  document.getElementById('total_team2').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[1].players));
+
+  document.getElementById('diff').innerHTML =
+  "DIFF: " + parseInt(totalTeam(teams[0].players) - totalTeam(teams[1].players)) + "</br>\
+                    A: " + parseInt(totalAttTeam(teams[0].players) - totalAttTeam(teams[1].players)) + "&nbsp;&nbsp;\
+                    D: " + parseInt(totalDefTeam(teams[0].players) - totalDefTeam(teams[1].players)) + "&nbsp;&nbsp;\
+                    S: " + parseInt(totalStaTeam(teams[0].players) - totalStaTeam(teams[1].players)) + "&nbsp;&nbsp;\
+                    T: " + parseInt(totalTspTeam(teams[0].players) - totalTspTeam(teams[1].players)) + "</br>";
+}
+
+function reloadTeams() 
+{
+  var teams = { "0" : { "players" : [] }, "1" : { "players" : [] } };
+
+  var team1Lis = document.getElementById('results').getElementsByTagName('ul')[0].getElementsByTagName("li");
+  var team2Lis = document.getElementById('results').getElementsByTagName('ul')[1].getElementsByTagName("li");
+  var playersVar = [];
+  for (var i = 0; i < team1Lis.length; i++)
+  {    
+    playersVar.push(team1Lis[i].property);
+  }
+  teams[0].players = playersVar;
+
+  playersVar = [];
+  for (var i = 0; i < team2Lis.length; i++)
+  {    
+    playersVar.push(team2Lis[i].property);
+  }
+  teams[1].players = playersVar;
+
+  displayTeam(teams);
+}
+
   $(function() {
     $( "input[type=submit], a, button" )
       .button()
       .click(function( event ) {
           var idPlayer = $("#select-result2").val();
           $.post("core/generateTeam.php", { idPlayer: idPlayer },
-          function(data)
+          function(data, status)
           {
-            $('#results').html(data);
+            displayTeam(data);
             $('#myForm')[0].reset();
-          });
+          }, "json");
         event.preventDefault();
       });
   });
+
+
+
+  $( function() {
+    $( "#sortable1, #sortable2" ).sortable({
+      connectWith: ".connectedSortable",
+      stop: function( event, ui ) { reloadTeams() }
+    }).disableSelection();
+  } );
+
+
   </script>
 </head>
 <body>
@@ -133,7 +237,20 @@ var ctx = document.getElementById('<?php echo $value; ?>').getContext('2d');
   <p><input type="submit" id="submitFormData" value="Generate" /></p>
 </form>
 <span id="results">
-  <!-- All data will display here  -->
+<div class="image">
+<img src="img/soccer-field.jpg" alt="" />
+  <div class="pitch">
+    <div id="diff">DIFF: </div>
+    <div id="team1">
+      <div id="total_team1">TOTAL : </div>
+      <ul id="sortable1" class="connectedSortable"></ul>
+    </div>
+    <div id="team2">
+      <div id="total_team2">TOTAL : </div>
+      <ul id="sortable2" class="connectedSortable"></ul>
+    </div>
+  </div>
+</div>
 </span>
   
 </body>
