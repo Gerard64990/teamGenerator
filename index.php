@@ -43,11 +43,15 @@
       .click(function( event ) {
           var idPlayer = $("#select-result2").val();
           $.post("core/generateTeam.php", { idPlayer: idPlayer },
-          function(data)
+          function(data, status)
           {
-            $('#results').html(data);
+            // console.log(status);
+            // $('#results').html(data);
+            // console.log(data.stack);
+            // console.log("c");
+            console.log(data);
             $('#myForm')[0].reset();
-          });
+          }, "json");
         event.preventDefault();
       });
   });

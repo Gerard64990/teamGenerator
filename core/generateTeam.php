@@ -1,8 +1,8 @@
-
 <?php
 require_once('Player.php');
 require_once('Team.php');
 require_once('../db/database.php');
+
 
 $dbObject = new DataBase();
 $db = $dbObject->pdo;
@@ -32,7 +32,6 @@ foreach ($idPlayers as $id)
 }
 // shuffle($players);
 
-echo '<span id="debug">';
 $players_skill_string = "";
 foreach ($players as $player)
 {
@@ -69,9 +68,20 @@ foreach ($team2_str as $coeff_player) {
 }
 
 $teams = [$team1, $team2];
+echo json_encode($teams);
 
-echo '</span>';
 ?>
+
+<script>
+  $( function() {
+    $( "#sortable1, #sortable2" ).sortable({
+      connectWith: ".connectedSortable"
+    }).disableSelection();
+  } );
+  $( "#sortable1, #sortable2" ).sortable({
+  stop: function( event, ui ) { console.log("Reload team"); }
+});
+</script>
 
 <div class="image">
 <img src="img/soccer-field.jpg" alt="" />
@@ -85,7 +95,7 @@ echo '</span>';
                      </div>
     <div id="team1">
       <div id="total_team1">TOTAL : <?=$teams[0]->level();?></div>
-      <ul>
+      <ul id="sortable1" class="connectedSortable">
         <?php
           foreach ($teams[0]->players as $player)
           {
@@ -96,7 +106,7 @@ echo '</span>';
     </div>
     <div id="team2">
       <div id="total_team2">TOTAL : <?=$teams[1]->level();?></div>
-      <ul>
+      <ul id="sortable2" class="connectedSortable">
         <?php
         foreach ($teams[1]->players as $player)
         {

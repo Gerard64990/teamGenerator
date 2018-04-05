@@ -65,7 +65,8 @@ h5 {
 .pitch #player {
   position: relative;
   top: -15px;
-  color: white;
+  color: white;  
+  cursor: move;
 }
 
 #myForm {
@@ -83,3 +84,5 @@ h5 {
   width: 200px;
   font-size: 5em;
 }
+
+
