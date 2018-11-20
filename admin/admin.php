@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `player` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ');
 
+
+
 $db->query('DROP TABLE IF EXISTS `coeff`');
 $db->query('
 CREATE TABLE IF NOT EXISTS `coeff` (
@@ -69,10 +71,14 @@ CREATE TABLE IF NOT EXISTS `coeff` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 ');
 
-$handle = fopen('https://docs.google.com/feeds/download/spreadsheets/Export?key='.$googleKey.'&exportFormat=csv', 'r');
 
-while ($data = fgetcsv($handle, 1000, ","))
-{
+$arrContextOptions=array("ssl"=>array( "verify_peer"=>false ));
+
+$csvData = file_get_contents('https://docs.google.com/spreadsheets/d/'.$googleKey.'/export?format=csv', false, stream_context_create($arrContextOptions));
+$lines = explode(PHP_EOL, $csvData);
+
+foreach ($lines as $line) {
+  $data = str_getcsv($line, ',');
   foreach ($data as $key => $value) $data[$key] = addslashes($data[$key]);
   if ( strlen($data[1]) > 2 )
   {
