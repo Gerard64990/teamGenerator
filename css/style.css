@@ -8,17 +8,17 @@ body {
 #selectable .ui-selected { background: #F39814; color: white; }
 #selectable { position: absolute; top: 5px; list-style-type: none; margin: 0; padding: 0; width: 180px; }
 #selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-  
-.image { 
-   position: absolute; 
-   width: 100%; /* for IE 6 */
-   left: 365px;
-   top: 10px;
-}
 
-h5 {
-  font-size: 1em;
-}
+#player {font-size: 1em; }
+
+.image { position: absolute; left: 365px; top: 10px; }
+
+#res2 { left: 995px;}
+#res3 { top: 235px; }
+#res4 { left: 995px; top: 235px; }
+
+
+h5 { font-size: 1em; }
 
 .chart-container {
   position: absolute; top: 10px; left: 120px; width: 250px;
@@ -36,28 +36,28 @@ h5 {
   color: #D0D0D0;
 }
 
-.pitch #total_team1 {
+.pitch .total_team1 {
   position: relative;
   left: 160px;
   color: white;
 }
-.pitch #total_team2 {
+.pitch .total_team2 {
   position: relative;
   left: -75px;
   color: white;
 }
-.pitch #diff {
+.pitch .diff {
   position: absolute;
   left: 230px;
   top: 43px;
   color: white;
 }
 
-.pitch #team1 {
+.pitch .team1 {
   position: absolute;
 }
 
-.pitch #team2 {
+.pitch .team2 {
   position: absolute;
   left: 440px;
 }
@@ -71,7 +71,7 @@ h5 {
 
 #myForm {
   position: relative;
-  top: 425px;
+  top: 460px;
   left: 357px;
   width: 200px;
 }

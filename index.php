@@ -89,45 +89,64 @@ function totalTspTeam(players)
   return total;
 }
 
-function displayTeam(teams) {
-  var result = document.getElementById('results');
+// function displayTeams(teams) {
+//   displayTeam(teams[0]);
+//   displayTeam(teams[1]);
+// }
 
-  var ul = result.getElementsByTagName('ul');
-  displayPlayerNames(ul[0], teams[0].players );
-  displayPlayerNames(ul[1], teams[1].players );
+function displayTeam(allTeams) {
+  var results = document.getElementsByClassName("results");
 
-  document.getElementById('total_team1').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[0].players));
-  document.getElementById('total_team2').innerHTML = 'TOTAL : ' + parseInt(totalTeam(teams[1].players));
+  for (var i = 0; i < results.length; i++)
+  {
+    var ul = results[i].getElementsByTagName('ul');
+    displayPlayerNames(ul[0], allTeams[i][0].players );
+    displayPlayerNames(ul[1], allTeams[i][1].players );
+  }
 
-  document.getElementById('diff').innerHTML =
-  "DIFF: " + parseInt(totalTeam(teams[0].players) - totalTeam(teams[1].players)) + "</br>\
-                    A: " + parseInt(totalAttTeam(teams[0].players) - totalAttTeam(teams[1].players)) + "&nbsp;&nbsp;\
-                    D: " + parseInt(totalDefTeam(teams[0].players) - totalDefTeam(teams[1].players)) + "&nbsp;&nbsp;\
-                    S: " + parseInt(totalStaTeam(teams[0].players) - totalStaTeam(teams[1].players)) + "&nbsp;&nbsp;\
-                    T: " + parseInt(totalTspTeam(teams[0].players) - totalTspTeam(teams[1].players)) + "</br>";
+  var totals1 = document.getElementsByClassName('total_team1');
+  for (var i = 0; i < totals1.length; i++)
+    totals1[i].innerHTML = 'TOTAL : ' + parseInt(totalTeam(allTeams[i][0].players));
+
+  var totals2 = document.getElementsByClassName('total_team2');
+  for (var i = 0; i < totals2.length; i++)
+    totals2[i].innerHTML = 'TOTAL : ' + parseInt(totalTeam(allTeams[i][1].players));
+
+  var diffs = document.getElementsByClassName('diff');
+  for (var i = 0; i < diffs.length; i++)
+    diffs[i].innerHTML = "DIFF: " + parseInt(totalTeam(allTeams[i][0].players) - totalTeam(allTeams[i][1].players)) + "</br>\
+                    A: " + parseInt(totalAttTeam(allTeams[i][0].players) - totalAttTeam(allTeams[i][1].players)) + "&nbsp;&nbsp;\
+                    D: " + parseInt(totalDefTeam(allTeams[i][0].players) - totalDefTeam(allTeams[i][1].players)) + "&nbsp;&nbsp;\
+                    S: " + parseInt(totalStaTeam(allTeams[i][0].players) - totalStaTeam(allTeams[i][1].players)) + "&nbsp;&nbsp;\
+                    T: " + parseInt(totalTspTeam(allTeams[i][0].players) - totalTspTeam(allTeams[i][1].players)) + "</br>";
 }
 
 function reloadTeams() 
 {
-  var teams = { "0" : { "players" : [] }, "1" : { "players" : [] } };
+  var results = document.getElementsByClassName('results');
+  var allteams = [];
+  for (var i = 0; i < results.length; i++)
+  {
+    var teams = { "0" : { "players" : [] }, "1" : { "players" : [] } };
 
-  var team1Lis = document.getElementById('results').getElementsByTagName('ul')[0].getElementsByTagName("li");
-  var team2Lis = document.getElementById('results').getElementsByTagName('ul')[1].getElementsByTagName("li");
-  var playersVar = [];
-  for (var i = 0; i < team1Lis.length; i++)
-  {    
-    playersVar.push(team1Lis[i].property);
+    var team1Lis = results[i].getElementsByTagName('ul')[0].getElementsByTagName("li");
+    var team2Lis = results[i].getElementsByTagName('ul')[1].getElementsByTagName("li");
+    var playersVar = [];
+    for (var j = 0; j < team1Lis.length; j++)
+    {
+      playersVar.push(team1Lis[j].property);
+    }
+    teams[0].players = playersVar;
+
+    playersVar = [];
+    for (var j = 0; j < team2Lis.length; j++)
+    {
+      playersVar.push(team2Lis[j].property);
+    }
+    teams[1].players = playersVar;
+    allteams.push(teams);
   }
-  teams[0].players = playersVar;
-
-  playersVar = [];
-  for (var i = 0; i < team2Lis.length; i++)
-  {    
-    playersVar.push(team2Lis[i].property);
-  }
-  teams[1].players = playersVar;
-
-  displayTeam(teams);
+  displayTeam(allteams);
 }
 
   $(function() {
@@ -148,12 +167,29 @@ function reloadTeams()
 
 
   $( function() {
-    $( "#sortable1, #sortable2" ).sortable({
+    $( "#sortable1_0, #sortable1_1" ).sortable({
       connectWith: ".connectedSortable",
       stop: function( event, ui ) { reloadTeams() }
     }).disableSelection();
   } );
-
+  $( function() {
+    $( "#sortable2_0, #sortable2_1" ).sortable({
+      connectWith: ".connectedSortable",
+      stop: function( event, ui ) { reloadTeams() }
+    }).disableSelection();
+  } );
+  $( function() {
+    $( "#sortable3_0, #sortable3_1" ).sortable({
+      connectWith: ".connectedSortable",
+      stop: function( event, ui ) { reloadTeams() }
+    }).disableSelection();
+  } );
+  $( function() {
+    $( "#sortable4_0, #sortable4_1" ).sortable({
+      connectWith: ".connectedSortable",
+      stop: function( event, ui ) { reloadTeams() }
+    }).disableSelection();
+  } );
 
   </script>
 </head>
@@ -236,22 +272,73 @@ var ctx = document.getElementById('<?php echo $value; ?>').getContext('2d');
   You have selected:</span> <span id="numSelected">0</span><span> players</span>.
   <p><input type="submit" id="submitFormData" value="Generate" /></p>
 </form>
-<span id="results">
-<div class="image">
-<img src="img/soccer-field.jpg" alt="" />
-  <div class="pitch">
-    <div id="diff">DIFF: </div>
-    <div id="team1">
-      <div id="total_team1">TOTAL : </div>
-      <ul id="sortable1" class="connectedSortable"></ul>
-    </div>
-    <div id="team2">
-      <div id="total_team2">TOTAL : </div>
-      <ul id="sortable2" class="connectedSortable"></ul>
+
+<span class="results">
+  <div id="res1" class="image">
+  <img src="img/soccer-field_min.jpg" alt="" />
+    <div class="pitch">
+      <div class="diff">DIFF: </div>
+      <div class="team1">
+        <div class="total_team1">TOTAL : </div>
+        <ul id="sortable1_0" class="connectedSortable"></ul>
+      </div>
+      <div class="team2">
+        <div class="total_team2">TOTAL : </div>
+        <ul id="sortable1_1" class="connectedSortable"></ul>
+      </div>
     </div>
   </div>
-</div>
 </span>
-  
+
+<span class="results">
+  <div id="res2" class="image">
+  <img src="img/soccer-field_min.jpg" alt="" />
+    <div class="pitch">
+      <div class="diff">DIFF: </div>
+      <div class="team1">
+        <div class="total_team1">TOTAL : </div>
+        <ul id="sortable2_0" class="connectedSortable"></ul>
+      </div>
+      <div class="team2">
+        <div class="total_team2">TOTAL : </div>
+        <ul id="sortable2_1" class="connectedSortable"></ul>
+      </div>
+    </div>
+  </div>
+</span>
+
+<span class="results">
+  <div id="res3" class="image">
+  <img src="img/soccer-field_min.jpg" alt="" />
+    <div class="pitch">
+      <div class="diff">DIFF: </div>
+      <div class="team1">
+        <div class="total_team1">TOTAL : </div>
+        <ul id="sortable3_0" class="connectedSortable"></ul>
+      </div>
+      <div class="team2">
+        <div class="total_team2">TOTAL : </div>
+        <ul id="sortable3_1" class="connectedSortable"></ul>
+      </div>
+    </div>
+  </div>
+</span>
+
+<span class="results">
+  <div id="res4" class="image">
+  <img src="img/soccer-field_min.jpg" alt="" />
+    <div class="pitch">
+      <div class="diff">DIFF: </div>
+      <div class="team1">
+        <div class="total_team1">TOTAL : </div>
+        <ul id="sortable4_0" class="connectedSortable"></ul>
+      </div>
+      <div class="team2">
+        <div class="total_team2">TOTAL : </div>
+        <ul id="sortable4_1" class="connectedSortable"></ul>
+      </div>
+    </div>
+  </div>
+</span>
 </body>
 </html>

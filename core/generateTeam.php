@@ -30,7 +30,6 @@ foreach ($idPlayers as $id)
     $rep->closeCursor();
   }
 }
-// shuffle($players);
 
 $players_skill_string = "";
 foreach ($players as $player)
@@ -38,36 +37,44 @@ foreach ($players as $player)
   $players_skill_string = $players_skill_string.intval($player->level()). " ";
 }
 
-$cmd = "C:\Python27\python.exe ../core/makeTeams.py --numbers ".$players_skill_string;
+$cmd = "C:\Python27\python.exe ../core/makeTeams.py --numSolutions 4 --numbers ".$players_skill_string;
 $result = exec($cmd);
 
-$team_str = explode("|", $result);
-$team1_str = explode(" ", $team_str[0]);
-$team2_str = explode(" ", $team_str[1]);
 
-$team1 = new Team();
-$team2 = new Team();
+$solutions_str = explode(";", $result);
 
-foreach ($team1_str as $coeff_player) {
-  foreach ($players as $player) {
-    if ( $coeff_player == $player->level() )
-    {
-      $team1->add($player);
-      break;
+// file_put_contents("c:/testfile.txt", json_encode($solutions_str[1]));
+$returnArray = array();
+foreach ($solutions_str as $solution_str)
+{
+  $team_str = explode("|", $solution_str);
+
+  $team1_str = explode(" ", $team_str[0]);
+  $team2_str = explode(" ", $team_str[1]);
+
+  $team1 = new Team();
+  $team2 = new Team();
+
+  foreach ($team1_str as $coeff_player) {
+    foreach ($players as $player) {
+      if ( $coeff_player == $player->level() )
+      {
+        $team1->add($player);
+        break;
+      }
     }
   }
-}
-foreach ($team2_str as $coeff_player) {
-  foreach ($players as $player) {
-    if ( $coeff_player == $player->level() )
-    {
-      $team2->add($player);
-      break;
+  foreach ($team2_str as $coeff_player) {
+    foreach ($players as $player) {
+      if ( $coeff_player == $player->level() )
+      {
+        $team2->add($player);
+        break;
+      }
     }
   }
+  $returnArray[] = [$team1, $team2];
 }
-
-$teams = [$team1, $team2];
-echo json_encode($teams);
+echo json_encode($returnArray);
 ?>
 
