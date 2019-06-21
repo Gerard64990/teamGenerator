@@ -37,7 +37,7 @@ foreach ($players as $player)
   $players_skill_string = $players_skill_string.intval($player->level()). " ";
 }
 
-$cmd = "C:\Python27\python.exe ../core/makeTeams.py --numSolutions 4 --numbers ".$players_skill_string;
+$cmd = "C:\Python27\python.exe ../core/makeTeams.py --numSolutions 6 --numbers ".$players_skill_string;
 $result = exec($cmd);
 
 

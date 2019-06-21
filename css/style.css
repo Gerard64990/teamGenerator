@@ -15,8 +15,9 @@ body {
 
 #res2 { left: 995px;}
 #res3 { top: 235px; }
-#res4 { left: 995px; top: 235px; }
-
+#res4 { top: 235px; left: 995px; }
+#res5 { top: 460px; }
+#res6 { top: 460px; left: 995px;}
 
 h5 { font-size: 1em; }
 
@@ -53,6 +54,13 @@ h5 { font-size: 1em; }
   color: white;
 }
 
+.top-left {
+  color: white;
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
 .pitch .team1 {
   position: absolute;
 }
@@ -71,7 +79,7 @@ h5 { font-size: 1em; }
 
 #myForm {
   position: relative;
-  top: 460px;
+  top: 680px;
   left: 357px;
   width: 200px;
 }

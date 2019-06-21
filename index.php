@@ -26,7 +26,6 @@
         var result = $( "#numSelected" ).empty();
         var numSelected = 0;
         var text = "";
-        //$( "#select-result2" ).val(text);
         $( ".ui-selected", this ).each(function() {
           numSelected = numSelected + 1;
           var index = $( "#selectable li" ).index( this );
@@ -88,11 +87,6 @@ function totalTspTeam(players)
     total += parseInt(players[i].tsp);
   return total;
 }
-
-// function displayTeams(teams) {
-//   displayTeam(teams[0]);
-//   displayTeam(teams[1]);
-// }
 
 function displayTeam(allTeams) {
   var results = document.getElementsByClassName("results");
@@ -165,31 +159,14 @@ function reloadTeams()
   });
 
 
-
+for (var i = 1; i < 7; i++) {
   $( function() {
     $( "#sortable1_0, #sortable1_1" ).sortable({
       connectWith: ".connectedSortable",
       stop: function( event, ui ) { reloadTeams() }
     }).disableSelection();
   } );
-  $( function() {
-    $( "#sortable2_0, #sortable2_1" ).sortable({
-      connectWith: ".connectedSortable",
-      stop: function( event, ui ) { reloadTeams() }
-    }).disableSelection();
-  } );
-  $( function() {
-    $( "#sortable3_0, #sortable3_1" ).sortable({
-      connectWith: ".connectedSortable",
-      stop: function( event, ui ) { reloadTeams() }
-    }).disableSelection();
-  } );
-  $( function() {
-    $( "#sortable4_0, #sortable4_1" ).sortable({
-      connectWith: ".connectedSortable",
-      stop: function( event, ui ) { reloadTeams() }
-    }).disableSelection();
-  } );
+}
 
   </script>
 </head>
@@ -273,72 +250,28 @@ var ctx = document.getElementById('<?php echo $value; ?>').getContext('2d');
   <p><input type="submit" id="submitFormData" value="Generate" /></p>
 </form>
 
-<span class="results">
-  <div id="res1" class="image">
-  <img src="img/soccer-field_min.jpg" alt="" />
-    <div class="pitch">
-      <div class="diff">DIFF: </div>
-      <div class="team1">
-        <div class="total_team1">TOTAL : </div>
-        <ul id="sortable1_0" class="connectedSortable"></ul>
-      </div>
-      <div class="team2">
-        <div class="total_team2">TOTAL : </div>
-        <ul id="sortable1_1" class="connectedSortable"></ul>
-      </div>
-    </div>
-  </div>
-</span>
+<script>
+for (var i = 1; i < 7; i++) {
+  document.body.innerHTML += '<span class="results">\
+  <div id="res'+i+'" class="image">\
+  <img src="img/soccer-field_min.jpg" alt="" />\
+    <div class="top-left">'+i+'</div>\
+    <div class="pitch">\
+      <div class="diff">DIFF: </div>\
+      <div class="team1">\
+        <div class="total_team1">TOTAL : </div>\
+        <ul id="sortable1_0" class="connectedSortable"></ul>\
+      </div>\
+      <div class="team2">\
+        <div class="total_team2">TOTAL : </div>\
+        <ul id="sortable1_1" class="connectedSortable"></ul>\
+      </div>\
+    </div>\
+  </div>\
+</span>';
+}
+</script>
 
-<span class="results">
-  <div id="res2" class="image">
-  <img src="img/soccer-field_min.jpg" alt="" />
-    <div class="pitch">
-      <div class="diff">DIFF: </div>
-      <div class="team1">
-        <div class="total_team1">TOTAL : </div>
-        <ul id="sortable2_0" class="connectedSortable"></ul>
-      </div>
-      <div class="team2">
-        <div class="total_team2">TOTAL : </div>
-        <ul id="sortable2_1" class="connectedSortable"></ul>
-      </div>
-    </div>
-  </div>
-</span>
 
-<span class="results">
-  <div id="res3" class="image">
-  <img src="img/soccer-field_min.jpg" alt="" />
-    <div class="pitch">
-      <div class="diff">DIFF: </div>
-      <div class="team1">
-        <div class="total_team1">TOTAL : </div>
-        <ul id="sortable3_0" class="connectedSortable"></ul>
-      </div>
-      <div class="team2">
-        <div class="total_team2">TOTAL : </div>
-        <ul id="sortable3_1" class="connectedSortable"></ul>
-      </div>
-    </div>
-  </div>
-</span>
-
-<span class="results">
-  <div id="res4" class="image">
-  <img src="img/soccer-field_min.jpg" alt="" />
-    <div class="pitch">
-      <div class="diff">DIFF: </div>
-      <div class="team1">
-        <div class="total_team1">TOTAL : </div>
-        <ul id="sortable4_0" class="connectedSortable"></ul>
-      </div>
-      <div class="team2">
-        <div class="total_team2">TOTAL : </div>
-        <ul id="sortable4_1" class="connectedSortable"></ul>
-      </div>
-    </div>
-  </div>
-</span>
 </body>
 </html>
